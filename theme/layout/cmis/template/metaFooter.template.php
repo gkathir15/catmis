@@ -1,0 +1,4 @@
+<?
+$metaFooter		=	'</div>'.
+					'</div>';
+?>
