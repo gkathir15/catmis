@@ -1,0 +1,4 @@
+#summary How to install Catmis on your server.
+#labels Installation
+
+= Installation =
