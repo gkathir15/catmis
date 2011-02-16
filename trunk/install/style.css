@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+html, body { 
+	background-color: #e7e7e7;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 90%;
+}
+
+.shortInput {
+	width: 70%;
+	border: 1px #cccccc solid;
+}
