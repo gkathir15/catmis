@@ -126,7 +126,7 @@ if ($success) {
 	$page = new Page();
 	$page->title = "Welcome";
 	$page->text = 	"<h1>Congratulations</h1>".
-			"<p>You have successfully setup the CMIS system.</p>".
+			"<p>You have successfully setup the Catmis system.</p>".
 			"<p>To begin administrating the system click the \"Login\" link in the right box or goto the <a href=\"".scriptUrl."/".folderAdmin."\">Control Panel</a>.</p>".
 			"<p>For security reasons remember to remove the \"install\" folder on the server and chmod the config.php file back to 755.".
 			"<h2>Links</h2>".

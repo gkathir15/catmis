@@ -184,6 +184,7 @@ class Module {
 	/** Get identifiers and define modules, module content types and search types. */	
 	function initialize() {
 		global $dbi;
+		global $noExtensions;
 		
 		$titles = "";
 		$i = 0;
@@ -319,6 +320,10 @@ class Module {
 	 * @param	$id		Identifier to use for define constant.
 	 */	
 	function registerModule($title, $id, $path="") {
+		// Check if module has already been registered
+		if (defined($id)) return;
+		
+		// Register module
 		if (!empty($title) && !empty($id)) {
 			$this->modules[$title] = $id;
 			if (!empty($path)) $this->modulePaths[$title] = $path;
@@ -333,6 +338,10 @@ class Module {
 	 * @param	$object			Module content type object.
 	 */	
 	function registerModuleContentType($title, $moduleTitle, $parentContentTypeTitle, $id, $object) {
+		// Check if module has already been registered
+		if (defined($id)) return;
+		
+		// Register module content type
 		if (!empty($title) && !empty($moduleTitle) && !empty($id) && !empty($object)) {
 			$this->moduleContentTypes[$title] = array("id" => $id, "moduleTitle" => $moduleTitle, "parentContentTypeTitle" => $parentContentTypeTitle, "object" => $object);
 		}

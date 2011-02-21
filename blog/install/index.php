@@ -1,5 +1,5 @@
 <?
-/* Include common functions and declarations */
+// Include common functions and declarations
 include "../../include/common.php";
 
 if (!$login->isWebmaster()) {

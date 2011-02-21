@@ -387,7 +387,7 @@ class Page extends ModuleContentType implements ModuleSearchType {
 	/** Print page on webpage */
 	function printPage($redirect=1) {
 		if (!empty($this->id)) {
-			global $dbi, $login, $module, $site;
+			global $dbi, $login, $module, $settings, $site;
 			if ($this->hasReadPermission()) {
 				// Include language
 				include scriptPath."/include/language/".pageLanguage."/general.php";
@@ -422,7 +422,7 @@ class Page extends ModuleContentType implements ModuleSearchType {
 				$site->addMetaLink($this->getPageLink(), "", "direct");
 				$site->addMetaLink($this->getPageLink()."&amp;print=1", "", "print");
 				$site->addMetaLink(scriptUrl."/".fileSendToFriend."?url=".$this->getPageLink()."&amp;title=".$this->title, "", "recommend");
-				if ($this->hasEditPermission()) $site->addMetaLink(scriptUrl."/".folderRevision."/index.php?moduleContentTypeId=".pageContentTypeId."&amp;moduleContentId=".$this->id, "", "revision");
+				if ($this->hasEditPermission() && $settings->enableRevisioning) $site->addMetaLink(scriptUrl."/".folderUsers."/index.php?moduleContentTypeId=".pageContentTypeId."&amp;moduleContentId=".$this->id, "", "revision");
 				
 				// Set navigation links
 				$navigation = $this->getNavigationList();

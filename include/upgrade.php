@@ -1,18 +1,4 @@
 <?
-// Make sure meta table exists
-$dbTableDefs = array(
-	"meta" => "CREATE TABLE IF NOT EXISTS %smeta (
-	  id int(10) NOT NULL auto_increment,
-	  moduleId int(10) NOT NULL default '0',
-	  cmisVersion varchar(10) NOT NULL default '',
-	  databaseVersion int(10) NOT NULL default '0',
-	  lastUpdated TIMESTAMP NOT NULL,
-	  PRIMARY KEY  (id)
-	) TYPE=MyISAM
-	  CHARACTER SET utf8;"
-);
-$dbi->createTables($dbTableDefs);
-
 // Get database version
 $currentDatabaseVersion = $module->getModuleDatabaseVersion();
 $databaseVersion = $currentDatabaseVersion;
@@ -21,6 +7,17 @@ $databaseVersion = $currentDatabaseVersion;
 $dbTableDefs = array();
 switch ($currentDatabaseVersion) {
 	case 0:
+		$dbTableDefs = array(
+			"meta" => "CREATE TABLE IF NOT EXISTS %smeta (
+			  id int(10) NOT NULL auto_increment,
+			  moduleId int(10) NOT NULL default '0',
+			  cmisVersion varchar(10) NOT NULL default '',
+			  databaseVersion int(10) NOT NULL default '0',
+			  lastUpdated TIMESTAMP NOT NULL,
+			  PRIMARY KEY  (id)
+			) TYPE=MyISAM
+			  CHARACTER SET utf8;"
+		);
 		$dbTableDefs[] = 
 			"CREATE TABLE IF NOT EXISTS %slog_read (
 		  	`id` int(10) NOT NULL AUTO_INCREMENT,

@@ -74,7 +74,7 @@ class Login {
 	  */
 	function checkLogin($username, $password, $remember) {
 		global $dbi;
-		
+
 		// Include language
 		include scriptPath."/include/language/".pageLanguage."/general.php";
 		
@@ -112,7 +112,6 @@ class Login {
 
 		$cookie = str_replace("\\","",$cookie);	
 		list($username, $cookie) = @unserialize($cookie);
-		
 		if(!$username or !$cookie) return;
 
 		// Get user data from database and start session
@@ -545,7 +544,9 @@ class Login {
 	 * @param 	$value 	Value of cookie
 	 */
 	function sendCookie($name,$value) {
-		if(!headers_sent()) setcookie($name,$value,time()+31104000,"/",".".getCurrentDomain());
+		if(!headers_sent()) {
+			setcookie($name,$value,time()+31104000,"/",".".getCurrentDomain());
+		}
 	}
 	
 	
@@ -625,7 +626,7 @@ class Login {
 		list($this->id,$this->username,$this->lastLogged,$this->cookie,$this->activated,$this->administrator,$this->webmaster,$this->name,$this->email) = $result->fetchrow_array();
 
 		// If user is activated start session
-		if ($this->activated) {		
+		if ($this->activated) {
 			// If cookie is empty generate new
 			if (empty($this->cookie)) {
 				$this->cookie = $this->generateCookie();

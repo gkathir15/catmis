@@ -76,7 +76,18 @@ class MySQLDatabase {
 
 	function query ($query) {
 		$result = new MySQLResult($this->session, $query, $this->debug);
-		if (debug) $this->queries[] = $query;
+		if (diagnose) {
+			global $log;
+			$index = sizeof($this->queries);
+			$this->queries[$index]["query"] = $query;
+			$stacktrace = "";
+			ob_start();
+			print_r(debug_backtrace());
+			$stacktrace = ob_get_contents();
+			ob_end_clean();
+			$log->logDataToFile("queries.txt", "---\n" . sizeof($this->queries) . ": " . $query . "\n" . $stacktrace . "\n\n");
+			unset($stacktrace);
+		}
 		$this->lastQuery = $query;
 		return $result;
 	}
