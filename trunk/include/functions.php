@@ -1,18 +1,10 @@
 <?
+/** Check validation code. */
 function audit() {
-	//session_start();
 	$digit = !empty($_SESSION['digit'])?$_SESSION['digit']:"";
 	$userdigit = !empty($_POST['userdigit'])?$_POST['userdigit']:""; 
-	unset($_SESSION['digit']);
-	//session_destroy();
-	//echo "VALID: ".$digit."/".$userdigit;
-  
-	if (($digit == $userdigit) && ($digit > 1)) {
-		return true;
-	} 
-	else {
-		return false;
-	} 
+	unset($_SESSION['digit']);  
+	return (($digit == $userdigit) && ($digit > 1));
 }
 
 /** 
@@ -57,7 +49,10 @@ function checkEmail($mail) {
  * @param $url Url to check for. If empty default script url.
  */
 function checkSubmitter($url="") {
-	if(empty($url)) $url = getCurrentDomain();
+	if(empty($url)) {
+		$url = getCurrentDomain();
+		if (empty($url)) return true;
+	}
 	if (!empty($_SERVER["HTTP_REFERER"])) {
 		if(strpos($_SERVER["HTTP_REFERER"],$url)===false) redirect($url);		
 	}
@@ -104,6 +99,7 @@ function generateURL($link, $parameters=array()) {
 function getCurrentDomain() {
 	$pageUrl = @ereg_replace("/(.+)", "", $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]); 
 	$curdomain  = str_replace("www.", "", $pageUrl);
+	if ($curdomain == "localhost") return "";
 	$pos = strrpos($curdomain, '.');
 	$pos = strrpos($curdomain, '.', -(strlen($curdomain)-$pos+1));
 	$curdomain = substr($curdomain, $pos);

@@ -1,4 +1,10 @@
 <?
+// Set Catmis version number
+define("productName","Catmis");
+define("productLink","http://code.google.com/p/catmis/");
+define("version","0.5");
+define("databaseVersion","3");
+
 // Check whether to load extensions
 if (!isset($noExtensions)) $noExtensions = false;
 
@@ -10,10 +16,6 @@ session_set_cookie_params(3600, '/', ".".getCurrentDomain());
 
 // Start session
 session_start();
-
-// Set CMIS version number
-define("version","0.5");
-define("databaseVersion","3");
 
 // Set default separator for PHP to avoid breaking XHTML standard
 ini_set("arg_separator.output","&amp;");
@@ -32,13 +34,17 @@ if (empty($scriptUrl) || empty($scriptPath) || empty($filePath) || empty($dbHost
 		exit();
 	}
 	else {
-		echo "Please go to the root directory of your CMIS installation.";
+		echo "Please go to the root directory of your ".productName." installation.";
 		exit();
 	}
 }
 else {	
 	// Display as many errors and warnings as possible if debug is enabled
 	error_reporting($debug?6143:0);
+
+	// Determine if diagnostics is enabled
+	$diagnose = getGetValue("diagnose");
+	define("diagnose", !empty($diagnose) ? true : false);
 
 	// Include custom declarations, functions etc.
 	if (!$noExtensions) {
@@ -50,6 +56,7 @@ else {
 	// Include system classes
 	require_once "class/module/Module.class.php";
 	require_once "class/module/ModuleContentType.class.php";
+	require_once "class/module/ModuleRegistry.class.php";
 	require_once "class/module/ModuleSearchType.class.php";
 	
 	require_once "class/content/Category.class.php";
@@ -93,7 +100,7 @@ else {
 	define("dbUserId", $dbUserId);
 	define("dbPassword", $dbPassword);
 	define("dbPrefix", $dbPrefix);
-	
+
 	// Display debug information
 	define("debug", defined("installing")?true:$debug);
 
@@ -107,6 +114,8 @@ else {
 	// Set various paths
 	define("cachePath", scriptPath."/data/cache");
 	define("cacheUrl", scriptUrl."/data/cache");
+	define("logPath", scriptPath."/data/log");
+	define("logUrl", scriptUrl."/data/log");
 	define("userScriptPath", scriptPath."/data/scripts");
 	define("userScriptUrl", scriptUrl."/data/scripts");
 	define("widgetPath", scriptPath."/data/widgets");
@@ -211,12 +220,12 @@ else {
 		// $dbi->query("SET NAMES 'utf8'");
 		// $dbi->query("SET CHARACTER SET 'utf8'");
 	}
-		
+
 	// Attempt to upgrade database
 	if (!defined("installing")) {
 		include scriptPath."/include/upgrade.php";
 	}
-	
+
 	// Create new Revision object
 	$revision = new Revision();
 	
@@ -270,6 +279,7 @@ else {
 		// Create cache object and clean cache
 		$cache->cleanCache();
 
+
 		// Create module object and register modules and content types
 		$module->registerModule("Categories","categoryModuleId");
 		$module->registerModuleContentType("Category", "Categories", "", "categoryContentTypeId", new Category());
@@ -301,12 +311,9 @@ else {
 				}
 			}
 		}
-		
+
 		// Initialize module types
 		$module->initialize();
-		
-		// Indicate modules has been initialized
-		define("modulesInitialized", true);
 
 		// Perform module upgrades
 		if (!$noExtensions) {
@@ -324,8 +331,11 @@ else {
 					include_once scriptPath."/".$modules[$i]["path"]."/install/upgrade.php";
 				}
 			}
-		}
-
+		}	
+		
+		// Indicate modules has been initialized
+		define("modulesInitialized", true);
+		
 		// Include language
 		if (file_exists(scriptPath."/include/language/".pageLanguage."/general.php")) {
 			require_once scriptPath."/include/language/".pageLanguage."/general.php";
@@ -364,7 +374,7 @@ else {
 			if (file_exists(scriptPath."/data/custom.php")) {
 				include_once scriptPath."/data/custom.php";
 			}
-		}
+		}		
 	}
 }
 ?>

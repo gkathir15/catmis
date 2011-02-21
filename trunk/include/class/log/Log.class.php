@@ -5,6 +5,8 @@
  * @author	Kaspar Rosengreen Nielsen.
  */
 class Log {
+	var $logWritten = false;
+	
 	/** 
 	 * Delete a transaction in database.
 	 * @param 	$moduleContentTypeId	Type of content.
@@ -108,6 +110,18 @@ class Log {
 			}
 		}
 		return $totalReads;
+	}
+	
+	/**
+	 * Log data to a file in log folder.
+	 * @param	$filename	Filename to log to.
+	 * @param	$data		Data to write to file.
+	 */
+	function logDataToFile($filename, $data) {
+		$fh = fopen(logPath.'/'.$filename, $this->logWritten ? 'a' : 'w') or die("Can't open file");
+		fwrite($fh, $data);
+		fclose($fh);
+		$this->logWritten = true;
 	}
 	
 	/** 

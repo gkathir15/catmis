@@ -40,11 +40,8 @@
 		</div>
 
 		<div class="layoutCreditContainer">
-			<div class="layoutCreditLogo">
-				<img src="<?= imgUrl ?>/logo.jpg" />
-			</div>
 			<div class="layoutCreditText">
-				"<?= pageTitle ?>" is powered by <a href="http://www.krosweb.dk">CMIS</a>.
+				"<?= pageTitle ?>" is powered by <a href="<?= productLink ?>" target="_blank"><?= productName ?></a>.
 			</div>
 		</div>
 

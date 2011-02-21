@@ -1,5 +1,5 @@
 <?
-// Include news declarations
+// Include blog declarations
 require_once "declarations.php";
 
 // Determine if blog module is installed
@@ -15,7 +15,7 @@ if (!defined("blogModuleId") || !defined("blogIndexContentId") || !defined("blog
 	$module->registerModule("Blog","blogModuleId",folderBlog);
 	$module->registerModuleContentType("Blog", "Blog", "", "blogContentId", new Blog());
 	$module->registerModuleContentType("Blog Post", "Blog", "Blog", "blogPostContentId", new Post());
-	
+
 	// Register search type
 	$module->registerSearchType("blogContentId");
 

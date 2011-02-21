@@ -42,6 +42,8 @@ if(!empty($username) && !empty($password)) {
 	else {
 		$errors->addError("username", $lLogin["InvalidData"]); 
 	}
+	
+	session_write_close();
 }
 
 // Print login form

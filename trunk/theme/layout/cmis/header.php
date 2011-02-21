@@ -22,7 +22,7 @@
 			<div class="layoutBorder">
 				<div class="layoutMenu">
 					<? if (!file_exists(scriptPath."/".folderUploadedFiles."/themeHeader.jpg")) { ?>
-					<a href="<?= scriptUrl ?>"><h1 class="menuHeader"><?= pageTitle ?></h1></a>
+					<a href="<?= scriptUrl ?>" class="menuHeader"><h1 class="menuHeader"><?= pageTitle ?></h1></a>
 					<?= pageDescription ?>
 					<? } ?>
 				</div>

@@ -66,7 +66,7 @@ body {
 
 .layoutBoxContent {	
 	font-size: 85%;
-	padding-bottom: 10px;
+	padding-bottom: 3px;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 5px;

@@ -1,4 +1,3 @@
 <?
-$metaFooter		=	'</div>'.
-					'</div>';
+$metaFooter		=	'</ul></div></div>';
 ?>
