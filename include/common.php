@@ -56,7 +56,6 @@ else {
 	// Include system classes
 	require_once "class/module/Module.class.php";
 	require_once "class/module/ModuleContentType.class.php";
-	require_once "class/module/ModuleRegistry.class.php";
 	require_once "class/module/ModuleSearchType.class.php";
 	
 	require_once "class/content/Category.class.php";

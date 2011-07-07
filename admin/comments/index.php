@@ -18,7 +18,7 @@ if(!empty($deleteComments)) {
 	if (!empty($comments)) {
 		for($i=0; $i<sizeof($comments); $i++) {
 			$comment = new Comment($comments[$i]);
-			$comment->deleteComment();
+			$comment->deleteComment($commentType>0 ? true : false);
 		}
 	}
 
@@ -60,9 +60,9 @@ if(!empty($spam) || !empty($notSpam)) {
 	else {
 		$commentId = getValue("commentId");
 		if (!empty($commentId)) {
-			$comment = new Comment($_GET["commentId"]);
+			$comment = new Comment($commentId);
 			$comment->setSpamStatus($spam);
-		}		
+		}
 	}
 
 	// Redirect
@@ -116,13 +116,15 @@ $site->printHeader();
 $request = !empty($moduleContentTypeId) && !empty($moduleContentId) ? (!empty($request)?"&amp;":"?")."moduleContentTypeId=".$moduleContentTypeId."&amp;moduleContentId=".$moduleContentId : "";
 $request .= showPopup ? (!empty($request) ? "&amp;":"?")."popup=1" : "";
 $request .= !empty($sortby)? (!empty($request) ? "&amp;":"?") . "sortby=".$sortby:"";
+$request2 = $request;
+$request .= (!empty($commentType) ? (!empty($request) ? "&amp;":"?")."commentType=".$commentType:"");
 $link = scriptUrl."/".folderComment."/".fileCommentIndex.(!empty($request)?$request."&amp;":"?").(!empty($commentType)?"&amp;commentType=".$commentType:"");
 printf("<p>".$lCommentIndex["HeaderText"]."</p>", $link);
 
 //$request .= !empty($commentType) ? (!empty($request) ? "&amp;":"?") . "commentType=".$commentType : "";
 
 echo '<center>';
-echo '<form action="'.scriptUrl.'/'.folderComment.'/'.fileCommentIndex.$request.'" method="post">';
+echo '<form action="'.scriptUrl.'/'.folderComment.'/'.fileCommentIndex.$request2.'" method="post">';
 echo '<input type="text" name="searchString" value="'.$searchString.'" class="normalInput" style="width:150px" /> ';
 echo '<select name="commentType"><option value="0"'.($commentType==0 ? ' selected="selected"' : '').'>'.$lCommentIndex["PublishedComments"].'</option><option value="1"'.($commentType==1 ? ' selected="selected"' : '').'>'.$lCommentIndex["DeletedComments"].'</option><option value="2"'.($commentType==2 ? ' selected="selected"' : '').'>'.$lCommentIndex["SpamComments"].'</option></select>';
 echo '<input type="submit" value="'.$lGeneral["Search"].'" />';

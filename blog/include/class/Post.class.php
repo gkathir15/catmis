@@ -544,7 +544,7 @@ class Post extends ModuleContentType {
 						   " '".$this->blog->title."'.</p>".
 						   "<p><b>".$lBlogEditPost["Name"]."</b></p><p>".$login->name."</p>".
 						   "<p><b>".$lBlogEditPost["Subject"]."</b></p><p>".$this->subject."</p>".
-						   "<p><b>".$lBlogEditPost["Summary"]."</b></p>".parseBodyText((!empty($this->summary)?$this->summary:(!empty($this->text)?$this->text:""))).
+						   "<p><b>".$lBlogEditPost["Summary"]."</b></p>".parseString((!empty($this->summary)?$this->summary:(!empty($this->text)?$this->text:""))).
 						   "<p>--<br />".
 						   $lBlogEditPost["ReadPost"].": ".$this->getPostLink()."<br />".
 						   $lBlogEditPost["VisitBlog"].": ".$this->blog->getBlogLink()."</p>";
@@ -569,7 +569,7 @@ class Post extends ModuleContentType {
 						$dbi->query("UPDATE ".blogPostTableName." SET blogId=".$dbi->quote($this->blog->id).",userId=".$dbi->quote($this->user->id).",subject=".$dbi->quote($this->subject).",summary=".$dbi->quote($this->summary).",text=".$dbi->quote($this->text).",posted=FROM_UNIXTIME(".$dbi->quote($this->posted)."),lastUpdated=lastUpdated,showComments=".$dbi->quote($this->showComments).",disableComments=".$dbi->quote($this->disableComments).",draft=".$dbi->quote($this->draft)." WHERE id=".$dbi->quote($this->id));
 
 						// Notify subscribers if the post was a draft previously
-						if ($draftBefore) {
+						if (!$this->draft && $draftBefore) {
 							$this->notifySubscribers($sender, $subject, $message);
 						}												
 					}
