@@ -38,7 +38,7 @@ class Comment extends ModuleContentType {
 		if (!empty($this->id)) {
 			if ($this->hasDeletePermission()) {
 				global $dbi;
-	
+
 				// Delete from database
 				if ($permanent) $dbi->query("DELETE FROM ".commentTableName." WHERE id=".$dbi->quote($this->id));
 				else $dbi->query("UPDATE ".commentTableName." SET posted=posted,trash=1 WHERE id=".$dbi->quote($this->id));
@@ -476,7 +476,7 @@ class Comment extends ModuleContentType {
 			global $dbi;
 
 			// Update values in database
-			$dbi->query("UPDATE ".commentTableName." SET spam=".$dbi->quote($spam).",posted=posted WHERE (id=".$this->id.")");
+			$dbi->query("UPDATE ".commentTableName." SET spam=".$dbi->quote($spam).",posted=posted WHERE (id=".$dbi->quote($this->id).")");
 		}
 	}
 }

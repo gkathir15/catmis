@@ -258,6 +258,7 @@ $dbTableDefs = array(
 	  textfieldIndex INT(10) NOT NULL default '0',
 	  diff TEXT NOT NULL,
 	  revision INT(10) NOT NULL default '0',
+	  userId INT(10) NOT NULL default '0',
 	  timestamp TIMESTAMP NOT NULL,
 	  PRIMARY KEY  (id)
 	) TYPE=MyISAM
