@@ -11,8 +11,8 @@ $up = getGetValue("up");
 $visible = getGetValue("visible");
 
 // Get search string values
-$searchString = parseString(getValue("searchString"));
-$searchType = parseString(getValue("searchType"));
+$searchString = parseString(getValue("searchString"), true);
+$searchType = parseString(getValue("searchType"), true);
 
 // Set limits for search results based on search type
 $viewAll = !empty($searchType)?true:false;

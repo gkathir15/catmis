@@ -1341,7 +1341,10 @@ function replace_br($input) {
  */
 function parseString($text,$stripHtml=0) {
 	$text = stripslashes($text);
-	if($stripHtml) $text = strip_tags($text);
+	if($stripHtml) {
+		$text = str_replace("\"","&quot;",$text);		
+		$text = strip_tags($text);
+	}
 	$text = str_replace("& ","&amp; ",$text);
 
 	//$text = stripslashes(nl2br($text));

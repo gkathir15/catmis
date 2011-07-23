@@ -158,7 +158,7 @@ class Page extends ModuleContentType implements ModuleSearchType {
 
 		// Fetch page hits
 		$count = 0;
-		$result = $dbi->query("SELECT COUNT(*) FROM ".pageTableName." WHERE MATCH(title, text, leftText, rightText) AGAINST ('$searchString' IN BOOLEAN MODE)");
+		$result = $dbi->query("SELECT COUNT(*) FROM ".pageTableName." WHERE MATCH(title, text, leftText, rightText) AGAINST (".$dbi->quote($searchString)." IN BOOLEAN MODE)");
 		if ($result->rows()) {
 			list($count) = $result->fetchrow_array();
 		}
@@ -375,7 +375,7 @@ class Page extends ModuleContentType implements ModuleSearchType {
 	function printSearchResults($searchString, $limit=0, $page=0, $viewAll=0) {
 		global $dbi, $login;
 		
-		$result = $dbi->query("SELECT id,MATCH(title,text,leftText,rightText) AGAINST ('$searchString' IN BOOLEAN MODE) AS score FROM ".pageTableName." WHERE MATCH(title, text, leftText, rightText) AGAINST ('$searchString' IN BOOLEAN MODE) ORDER BY score DESC".(!empty($limit) && $viewAll?" LIMIT ".($limit*$page).",".$limit:(!empty($limit)?" LIMIT ".$limit:"")));
+		$result = $dbi->query("SELECT id,MATCH(title,text,leftText,rightText) AGAINST (".$dbi->quote($searchString)." IN BOOLEAN MODE) AS score FROM ".pageTableName." WHERE MATCH(title, text, leftText, rightText) AGAINST (".$dbi->quote($searchString)." IN BOOLEAN MODE) ORDER BY score DESC".(!empty($limit) && $viewAll?" LIMIT ".($limit*$page).",".$limit:(!empty($limit)?" LIMIT ".$limit:"")));
 		$highlight = str_replace("\"","",stripslashes($searchString));
 		for($i=0;(list($id,$score)=$result->fetchrow_array());$i++) {
 			$page = new Page($id);
