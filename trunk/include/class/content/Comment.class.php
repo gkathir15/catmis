@@ -387,7 +387,7 @@ class Comment extends ModuleContentType {
 		$this->message = parseString(stripHtml(getValue("message")));
 		$this->spam = getValue("spam");
 		$this->userId = getValue("userId");
-		
+
 		// Get default name
 		$defaultName = parseString(getPostValue("defaultName"));
 

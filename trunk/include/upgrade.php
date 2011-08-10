@@ -106,6 +106,9 @@ switch ($currentDatabaseVersion) {
 	case 4:
 		$dbi->addColumnDefinition('%scomment','trash','int(1) NOT NULL default \'0\'','spam');
 		$databaseVersion = 5;
+	case 5:
+		$dbi->addColumnDefinition('%scomment','rating','double(1) NOT NULL default \'0\'','link');	
+		$databaseVersion = 6;
 		break;
 }
 
