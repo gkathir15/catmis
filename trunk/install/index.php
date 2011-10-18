@@ -139,7 +139,6 @@ $path = str_replace($strPathSeparator."install".$strPathSeparator."index.php",""
 <p><?= $lInstall["BaseFileUploadPath"] ?><br />
 <input type="text" name="filePath" value="<?= $path.$strPathSeparator."data/uploads" ?>" class="shortInput" /></p>
 
-
 <h2><?= $lInstall["Database"] ?></h2>
 
 <p><?= $lInstall["DatabasePrefix"] ?><br />
@@ -157,7 +156,7 @@ $path = str_replace($strPathSeparator."install".$strPathSeparator."index.php",""
 <p><?= $lInstall["DatabasePassword"] ?><br />
 <input type="password" name="dbPassword" value="" class="shortInput" /></p>
 
-<p><input type="submit" value="Install CMIS" /></p>
+<p><input type="submit" value="Install Catmis" /></p>
 </form>
 </td>
 </tr>

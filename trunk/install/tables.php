@@ -67,7 +67,7 @@ $dbTableDefs = array(
 	  subject varchar(100) NOT NULL default '',
 	  message text NOT NULL,
 	  link varchar(100) NOT NULL default '',
-	  rating double(1) NOT NULL default '0',
+	  rating float NOT NULL default '0',
 	  posted timestamp(14) NOT NULL,
 	  ip varchar(100) NOT NULL default '',
 	  spam int(1) NOT NULL default '0',

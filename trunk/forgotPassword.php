@@ -65,6 +65,7 @@ else if (!empty($send) && (!empty($username) || !empty($email))){
 
 		// Set mail values
 		$mail->CharSet 		= "UTF-8";
+		$mail->Sender		= pageAdminMail;
 		$mail->From     	= pageAdminMail;
 		$mail->FromName 	= pageTitle;
 		$mail->Subject 		= $subject;

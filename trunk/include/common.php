@@ -21,7 +21,7 @@ session_start();
 ini_set("arg_separator.output","&amp;");
 
 // Include configuration
-((int) @include_once("config.php")) or die("Configuration file can not be read. Check that the file 'include/config.php' exists.");
+((int) @include_once(dirname(__FILE__)."/config.php")) or die("Configuration file can not be read. Check that the file 'include/config.php' exists.");
 
 // Check if session is valid?
 $checkSession = !isset($checkSession) ? true : $checkSession;
@@ -146,6 +146,7 @@ else {
 	define("fileCategoryIndex","index.php");
 	define("fileCommentEdit","editComment.php");
 	define("fileCommentIndex","index.php");
+	define("fileContributorEdit","editContributor.php");
 	define("fileEditPermissions","editPermissions.php");
 	define("fileFilesBrowse","index.php");
 	define("fileFilesCreateFolder","createFolder.php");

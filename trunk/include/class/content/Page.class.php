@@ -579,7 +579,15 @@ class Page extends ModuleContentType implements ModuleSearchType {
 			
 			// If no errors save page
 			if (!$errorLog->hasErrors()) {
+				$exists = false;
 				if (!empty($this->id)) {
+					$result = $dbi->query("SELECT id FROM ".pageTableName." WHERE id=".$dbi->quote($this->id));
+					if ($result->rows()) {
+						$exists = true;
+					}
+				}
+				
+				if ($exists) {
 					// Update page in database
 					$dbi->query("UPDATE ".pageTableName." SET parentId=".$dbi->quote($this->parent->id).",title=".$dbi->quote($this->title).",text=".$dbi->quote($this->text).",link=".$dbi->quote($this->link).",navbarTitle=".$dbi->quote($this->navbarTitle).",showInMenu=".$dbi->quote($this->showInMenu).",showLastModified=".$dbi->quote($this->showLastModified).",showComments=".$dbi->quote($this->showComments).",disableComments=".$dbi->quote($this->disableComments).",`separator`=".$dbi->quote($this->separator)." WHERE id=".$dbi->quote($this->id));	
 				}
@@ -595,7 +603,7 @@ class Page extends ModuleContentType implements ModuleSearchType {
 					}
 			
 					// Insert page into database
-					$dbi->query("INSERT INTO ".pageTableName."(parentId,title,link,text,navbarTitle,showInMenu,showLastModified,showComments,disableComments,position,`separator`) VALUES(".$dbi->quote($this->parent->id).",".$dbi->quote($this->title).",".$dbi->quote($this->link).",".$dbi->quote($this->text).",".$dbi->quote($this->navbarTitle).",".$dbi->quote($this->showInMenu).",".$dbi->quote($this->showLastModified).",".$dbi->quote($this->showComments).",".$dbi->quote($this->disableComments).",".($position+1).",".$dbi->quote($this->separator).")");
+					$dbi->query("INSERT INTO ".pageTableName."(".(!empty($this->id) ? "id," : "")."parentId,title,link,text,navbarTitle,showInMenu,showLastModified,showComments,disableComments,position,`separator`) VALUES(".(!empty($this->id) ? $dbi->quote($this->id)."," : "").$dbi->quote($this->parent->id).",".$dbi->quote($this->title).",".$dbi->quote($this->link).",".$dbi->quote($this->text).",".$dbi->quote($this->navbarTitle).",".$dbi->quote($this->showInMenu).",".$dbi->quote($this->showLastModified).",".$dbi->quote($this->showComments).",".$dbi->quote($this->disableComments).",".($position+1).",".$dbi->quote($this->separator).")");
 
 					// Get new page id
 					$this->id = $dbi->getInsertId();
