@@ -27,6 +27,36 @@ class Folder {
 		}
 	}
 	
+    function copyPath($path, $dest) {
+		$count = 0;
+	    $DS = DIRECTORY_SEPARATOR;
+        if(is_dir($path)) {
+            @mkdir($dest);
+            $objects = scandir($path);
+            if(sizeof($objects) > 0) {
+                foreach($objects as $file) {
+                    if( $file == "." || $file == ".." )
+                        continue;
+                    if(is_dir($path.$DS.$file)) {
+                        return $this->copyPath($path.$DS.$file, $dest.$DS.$file );
+                    }
+                    else {
+                        return copy($path.$DS.$file, $dest.$DS.$file);
+                    }
+                }
+            }
+        }
+        else if(is_file($path)) {
+			if (!is_file($dest)) {
+				if (is_dir($dest)) {
+					$dest = $dest ."/".basename($path);
+				}
+			}
+            return copy($path, $dest);
+        }
+        return false;
+    }
+	
 	/** 
 	 * Create new folder.
 	 * @param 	$name 		Name of new folder.

@@ -19,14 +19,14 @@ class MySQLResult {
 			fclose($fd);
 		}
 
-		if (!($this->res = mysql_query($this->query, $this->session))) {			
-			if (!empty($login) || debug) {
+		if (!($this->res = mysql_query($this->query, $this->session))) {
+			if (defined("installing")) {
+				print "<b>A database error has occoured executing the following query: \"".$this->query."\".</b>. ".mysql_error().".";
+			}
+			else if (!empty($login)  || debug) {
 				if ($login->isWebmaster() || debug) {
 					print "<b>A database error has occoured executing the following query: \"".$this->query."\".</b>. ".mysql_error().".";
 				}
-			}
-			else if (defined("installing")) {
-				print "<b>A database error has occoured executing the following query: \"".$this->query."\".</b>. ".mysql_error().".";
 			}
 			else {
 				print "<b>A database error has occoured.".(defined('pageAdminMail')?" Please contact the ".protectMail(pageAdminMail, "webmaster")." of this site to report the problem.":"")."</b>";

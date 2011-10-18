@@ -62,6 +62,26 @@ class Cache {
 	}
 	
 	/**
+	 * Clear all files in cache.
+	 * @param	$dir	Directory to start clearing.
+	 */
+	function clearCache($dir="") {	
+		global $settings;
+		
+		// Clear cached files if necessary
+		$cacheFiles = $this->getCacheFiles();
+
+	    if (sizeof($cacheFiles)>0) {
+			// Remove cache files
+		    for ($i=0; $i<sizeof($cacheFiles); $i++) {
+				if (@is_writable($cacheFiles[$i][1])) {
+		        	@unlink($cacheFiles[$i][1]);
+				}
+		    }
+	    }
+	}
+	
+	/**
 	 * Create a new directory in the cache.
 	 * @param	$name	Name of new directory.
 	 */
@@ -158,7 +178,7 @@ class Cache {
 				// Resize file
 				if ($resize) {
 					resizeToFile($sourceFile, $width, $height, $targetFile, 100, $addBackground, $crop, $blackAndWhite);
-				}			
+				}		
 				return cacheUrl.(!empty($cacheDir)?"/".$cacheDir:"")."/".$name.".".$width."_".$height.($addBackground ? "_background" : ($crop ? "_crop" : "")).($blackAndWhite ? "_bw" : "").".jpg";
 			}
 			return iconUrl."/picture5050.gif";

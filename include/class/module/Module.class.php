@@ -39,9 +39,10 @@ class Module {
 	  * Add new module content type to website.
 	  * @param	$title		Module content type title.
 	  * @param	$moduleId	Parent module identifier.
+	  * @param	$parentId	Parent content type identifier.
 	  * @return identifier of module content type in database.
 	  */
-	function addModuleContentType($title, $moduleId) {
+	function addModuleContentType($title, $moduleId, $parentId=0) {
 		if (!empty($title)) {
 			global $dbi;
 			
@@ -52,7 +53,7 @@ class Module {
 				return $id;
 			}
 			else {
-				$dbi->query("INSERT INTO ".moduleContentTypeTableName."(title,moduleId) VALUES(".$dbi->quote($title).",".$dbi->quote($moduleId).")");
+				$dbi->query("INSERT INTO ".moduleContentTypeTableName."(title,moduleId,parentId) VALUES(".$dbi->quote($title).",".$dbi->quote($moduleId).",".$dbi->quote($parentId).")");
 				return $dbi->getInsertId();
 			}
 		}
@@ -271,7 +272,7 @@ class Module {
 			}
 			
 			for ($i=0; $i<sizeof($this->searchTypes); $i++) {
-				if (defined($this->searchTypes[$i])) {
+				if (defined($this->searchTypes[$i])) {					
 					$matchFound = false;
 					for ($j=0; $j<sizeof($dbSearchTypes); $j++) {
 						if ($dbSearchTypes[$j]==constant($this->searchTypes[$i])) {

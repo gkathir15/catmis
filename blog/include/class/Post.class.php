@@ -251,6 +251,7 @@ class Post extends ModuleContentType {
 		
 		// Set mail values
 		$mail->CharSet = "UTF-8";
+		$mail->Sender	= $user->email;
 		$mail->From     = $user->email;
 		$mail->FromName = $user->name;
 		$mail->Subject 	= $subject;

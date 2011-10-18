@@ -17,7 +17,10 @@ class Login {
 	/** Login constructor */
 	function Login() {
 		// Check session and logout if invalid
-		if($this->isLoggedIn()) {
+		if (defined("installing")) {
+			return;
+		}
+		else if ($this->isLoggedIn()) {
 			$this->checkSession();
 		}
 		else if(isset($_COOKIE["Login"])) {
@@ -49,6 +52,7 @@ class Login {
                                       // Send activation email
                                       $mail = new phpmailer();
                                       $mail->CharSet = "UTF-8";
+									  $mail->Sender	= pageAdminMail;
                                       $mail->From     = pageAdminMail;
                                       $mail->FromName = pageTitle;
                                       $mail->Subject  = $lActivate["MailSubject"];

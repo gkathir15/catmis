@@ -436,22 +436,23 @@ class User {
 
 				// Send mail to registered user
 				if (!$login->isLoggedIn() && $settings->activateWithEmail) {
-                                    // Send registration email
-                                    $mail = new phpmailer();
-                                    $mail->CharSet = "UTF-8";
-                                    $mail->From     = pageAdminMail;
-                                    $mail->FromName = pageTitle;
-                                    $mail->Subject  = sprintf($lEditUser["WelcomeEmailSubject"],pageTitle);
-                                    $mail->Body     = sprintf($lEditUser["WelcomeEmailText"], $this->name, scriptUrl."/".fileProfileActivate."?id=".$this->id."&activate=1&activationKey=".$activationKey);
-                                    $mail->IsHTML(false);
-                                    $mail->AddAddress($this->email);
-                                    $mail->Send();
+					// Send registration email
+					$mail = new phpmailer();
+					$mail->CharSet = "UTF-8";
+					$mail->From     = pageAdminMail;
+					$mail->Sender	= pageAdminMail;
+					$mail->FromName = pageTitle;
+					$mail->Subject  = sprintf($lEditUser["WelcomeEmailSubject"],pageTitle);
+					$mail->Body     = sprintf($lEditUser["WelcomeEmailText"], $this->name, scriptUrl."/".fileProfileActivate."?id=".$this->id."&activate=1&activationKey=".$activationKey);
+					$mail->IsHTML(false);
+					$mail->AddAddress($this->email);
+					$mail->Send();
 				}
 
-                                // Notify listeners that user was inserted
-                                if (function_exists("userInserted")) {
-                                    userInserted($this->id);
-                                }
+				// Notify listeners that user was inserted
+				if (function_exists("userInserted")) {
+					userInserted($this->id);
+				}
 			}
 			
 			// Set permissions for user

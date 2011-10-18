@@ -1,6 +1,6 @@
 <?
-$lInstall["Header"]					=	"CMIS Install";
-$lInstall["HeaderText"]				=	"On this page you can setup the CMIS system on your webserver by entering the required values.";
+$lInstall["Header"]					=	"Catmis Install";
+$lInstall["HeaderText"]				=	"On this page you can setup the Catmis system on your webserver by entering the required values.";
 $lInstall["BaseFileUploadPath"]		=	"Base file upload path";
 $lInstall["BaseScriptPath"]			=	"Base script path";
 $lInstall["BaseScriptUrl"]			=	"Base script url (remember http://)";

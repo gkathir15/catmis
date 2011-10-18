@@ -27,10 +27,18 @@ else if (sizeof($parameters)>0) {
 
 // If page not set create default page
 if (empty($page->id)) {
-	if (constant("pageDefaultPage")!=0) $page->init(pageDefaultPage);
+	if (constant("pageDefaultPage")!=0) {
+		$page->init(pageDefaultPage);
+	}
 	else redirect(scriptUrl."/".folderAdmin);
 }
 
 // Print page
-$page->printPage();
+if (!empty($page->id)) {
+	$page->printPage();
+}
+else {
+	$site->printHeader();
+	$site->printFooter();
+}
 ?>

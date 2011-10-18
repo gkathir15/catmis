@@ -229,7 +229,11 @@ function getGetValue($name) {
 }
 
 function getImageDimensions($imageUrl) {
-	return getimagesize(str_replace(scriptUrl, scriptPath, $imageUrl));
+	$path = str_replace(scriptUrl, scriptPath, $imageUrl);
+	if (file_exists($path)) {
+		return getimagesize($path);
+	}
+	return array();
 }
 
 /** 
@@ -925,9 +929,10 @@ function saveFile($filename, $content) {
  * @param 	$sizeLimit		Maximum allowed size of file.
  * @param 	$widthLimit		Maximum allowed width of file.
  * @param 	$heightLimit	Maximum allowed height of file.
+ * @param 	$enableChecks	Enable mimetype and file extension checks.
  * @return 	ErrorLog object.
  */
-function uploadFile($file, $filename, $mimeTypes=array(), $fileExtensions = array(), $sizeLimit=0, $widthLimit=0, $heightLimit=0) {
+function uploadFile($file, $filename, $mimeTypes=array(), $fileExtensions = array(), $sizeLimit=0, $widthLimit=0, $heightLimit=0, $enableChecks=true) {
 	// Keep errors
 	$errorLog = new ErrorLog();
 	
@@ -967,7 +972,7 @@ function uploadFile($file, $filename, $mimeTypes=array(), $fileExtensions = arra
 				break;
 			}
 		}
-		if (!$mimeTypeAllowed) $errorLog->addError("", "Mime type '".$file["type"]."' is not allowed.");
+		if (!$mimeTypeAllowed && $enableChecks) $errorLog->addError("", "Mime type '".$file["type"]."' is not allowed.");
 
 		// Checks if file has an allowed file extensions
 		$fileExtensionAllowed = false;
@@ -977,7 +982,7 @@ function uploadFile($file, $filename, $mimeTypes=array(), $fileExtensions = arra
 				break;
 			}
 		}
-		if (!$fileExtensionAllowed) $errorLog->addError("", "File extension '".$fileExtension."' is not allowed.");
+		if (!$fileExtensionAllowed && $enableChecks) $errorLog->addError("", "File extension '".$fileExtension."' is not allowed.");
 
 		// Check if file exceeds width and height limit
 		if($limitProportions) {

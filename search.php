@@ -22,31 +22,33 @@ $limit = $viewAll?15:5;
 if (!empty($pageNumber)) $pageNumber = $pageNumber-1;
 
 // Move search section up or down
-if (!empty($id) && !empty($position)) {
-	if (!empty($up)) {
-		$result = $dbi->query("SELECT id,position FROM ".searchTypeTableName." WHERE position<".$dbi->quote($position)." ORDER BY position DESC LIMIT 1");	
-		if($result->rows()) {
-			list($swapId,$swapPos)=$result->fetchrow_array();
-			$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($swapPos)." WHERE id=".$dbi->quote($id));
-			$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($position)." WHERE id=".$dbi->quote($swapId));
+if ($login->isWebmaster()) {
+	if (!empty($id) && !empty($position)) {
+		if (!empty($up)) {
+			$result = $dbi->query("SELECT id,position FROM ".searchTypeTableName." WHERE position<".$dbi->quote($position)." ORDER BY position DESC LIMIT 1");	
+			if($result->rows()) {
+				list($swapId,$swapPos)=$result->fetchrow_array();
+				$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($swapPos)." WHERE id=".$dbi->quote($id));
+				$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($position)." WHERE id=".$dbi->quote($swapId));
+			}
+			redirect(scriptUrl."/".fileSearch.(!empty($searchString)?"?searchString=".$searchString:""));
 		}
-		redirect(scriptUrl."/".fileSearch.(!empty($searchString)?"?searchString=".$searchString:""));
+		else if (!empty($down)) {
+			$result = $dbi->query("SELECT id,position FROM ".searchTypeTableName." WHERE position>".$dbi->quote($position)." ORDER BY position LIMIT 1");	
+			if($result->rows()) {
+				list($swapId,$swapPos)=$result->fetchrow_array();
+				$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($swapPos)." WHERE id=".$dbi->quote($id));
+				$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($position)." WHERE id=".$dbi->quote($swapId));
+			}		
+			redirect(scriptUrl."/".fileSearch.(!empty($searchString)?"?searchString=".$searchString:""));
+		}
 	}
-	else if (!empty($down)) {
-		$result = $dbi->query("SELECT id,position FROM ".searchTypeTableName." WHERE position>".$dbi->quote($position)." ORDER BY position LIMIT 1");	
-		if($result->rows()) {
-			list($swapId,$swapPos)=$result->fetchrow_array();
-			$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($swapPos)." WHERE id=".$dbi->quote($id));
-			$dbi->query("UPDATE ".searchTypeTableName." SET position=".$dbi->quote($position)." WHERE id=".$dbi->quote($swapId));
-		}		
-		redirect(scriptUrl."/".fileSearch.(!empty($searchString)?"?searchString=".$searchString:""));
-	}
-}
 
-// Hide or show search section
-if (!empty($id) && ($visible==0 || $visible==1)) {
-	$dbi->query("UPDATE ".searchTypeTableName." SET visible=".$dbi->quote($visible)." WHERE id=".$dbi->quote($id));
-	redirect(scriptUrl."/".fileSearch.(!empty($searchString)?"?searchString=".$searchString:""));
+	// Hide or show search section
+	if (!empty($id) && ($visible==0 || $visible==1)) {
+		$dbi->query("UPDATE ".searchTypeTableName." SET visible=".$dbi->quote($visible)." WHERE id=".$dbi->quote($id));
+		redirect(scriptUrl."/".fileSearch.(!empty($searchString)?"?searchString=".$searchString:""));
+	}
 }
 
 // Add navigation link
@@ -100,7 +102,6 @@ if(!empty($searchString)) {
 		for ($i=0; list ($searchTypeId, $id, $position, $visible) = $result->fetchrow_array(); $i++) {
 			if (empty($searchType) || $searchType==$id) {
 				$moduleContentType = $module->getModuleContentTypeObject($id);
-
 				if ($moduleContentType!=null) {
 					if (!method_exists($moduleContentType, "getName") || !method_exists($moduleContentType, "getModuleContentTypeId")) continue;
 

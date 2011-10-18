@@ -279,7 +279,7 @@ function updateSubthemes(subthemes) {
 <span id="cacheSizeSpan"<?= !$settings->enableCaching?" style=\"display:none\"":"" ?>>
  <?= $lSettings["CacheSize"] ?> <select name="cacheSize">
 <?
-$sizes = array(0,1024,2048,5120,10240,20480);
+$sizes = array(0,1024,2048,5120,10240,20480,40960,81920);
 for ($i=0; $i<sizeof($sizes); $i++) {
 	echo '<option value="'.$sizes[$i].'"'.($sizes[$i]==$settings->cacheSize?' selected="selected"':'').'>'.$sizes[$i].' KB</option>';
 }
